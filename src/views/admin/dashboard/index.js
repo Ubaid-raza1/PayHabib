@@ -1,11 +1,13 @@
 import { Box, Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SimpleCard from 'ui-component/simple-card';
 import card_img_one from '../../../assets/images/admin/admin-card-one.png';
 import card_img_two from '../../../assets/images/admin/admin-card-two.png';
 import card_img_three from '../../../assets/images/admin/admin-card-three.png';
 import TotalGrowthBarChart from 'views/dashboard/TotalGrowthBarChart';
 import PieChart from 'ui-component/pie-chart';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 // import EarningCard from 'views/dashboard/EarningCard';
 // import ColumnChart from 'ui-component/column-chart';
 // import TotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
@@ -14,6 +16,55 @@ import PieChart from 'ui-component/pie-chart';
 // import PopularCard from 'views/dashboard/PopularCard';
 
 const AdminDashboard = () => {
+  const [summaryData, setSummaryData] = useState({
+    totalPendingRequests: 0,
+    totalRejectedRequests: 0,
+    totalSucceededRequests: 0
+  });
+  const [revenueData, setRevenueData] = useState({ months: [], revenue: [] });
+
+  const { user } = useSelector((state) => state.auth);
+
+  const accountNumber = user?.accountNumber;
+
+  const fetchRevenueData = async () => {
+    try {
+      const response = await axios.get(`https://backend-procom.vercel.app/api/payment/revenue-by-month/${accountNumber}`, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`
+        }
+      });
+      const months = response?.data?.revenueData?.map((item) => item.month);
+      const revenue = response?.data?.revenueData?.map((item) => item.revenue);
+      setRevenueData({ months, revenue });
+    } catch (error) {
+      console.error('Error fetching revenue data:', error);
+    }
+  };
+
+  const fetchPaymentRequestsSummary = async () => {
+    try {
+      const response = await axios.post(
+        `https://backend-procom.vercel.app/api/payment/payment-requests-summary-merchant/${accountNumber}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`
+          }
+        }
+      );
+      setSummaryData(response.data);
+    } catch (error) {
+      console.error('Error fetching payment requests summary:', error);
+    }
+  };
+  useEffect(() => {
+    fetchPaymentRequestsSummary();
+    fetchRevenueData();
+  }, [accountNumber]);
+
+  console.log(revenueData);
+
   return (
     <Box>
       <Box
@@ -49,13 +100,13 @@ const AdminDashboard = () => {
       <hr style={{ margin: '50px 0' }} />
       <Box className="admin_dashboard_section_two">
         <h1 style={{ color: '#000' }}>Report</h1>
-        <TotalGrowthBarChart />
+        <TotalGrowthBarChart data={revenueData} />
       </Box>
       <Box
         className="admin_dashboard_section_three"
         sx={{ width: '50%', marginTop: '20px', border: '1px solid #ccc', padding: '20px', borderRadius: '10px' }}
       >
-        <PieChart />
+        <PieChart data={summaryData} />
       </Box>
     </Box>
   );

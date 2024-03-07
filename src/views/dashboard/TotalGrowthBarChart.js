@@ -18,7 +18,7 @@ import { gridSpacing } from 'store/constant';
 // chart data
 import chartData from './chart-data/total-growth-bar-chart';
 
-const TotalGrowthBarChart = ({ isLoading }) => {
+const TotalGrowthBarChart = ({ isLoading, data }) => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
 
@@ -36,7 +36,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
   useEffect(() => {
     const newChartData = {
       ...chartData.options,
-      colors: [primary200, primaryDark, secondaryMain, secondaryLight],
+      colors: [primaryDark, primaryDark, secondaryMain, secondaryLight],
       xaxis: {
         labels: {
           style: {
@@ -89,7 +89,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Chart {...chartData} />
+              <Chart {...chartData(data)} />
             </Grid>
           </Grid>
         </MainCard>
