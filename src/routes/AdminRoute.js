@@ -1,5 +1,6 @@
 import MainLayout from 'layout/MainLayout';
 import { lazy } from 'react';
+import { Navigate } from 'react-router';
 import Loadable from 'ui-component/Loadable';
 
 const Dashboard = Loadable(lazy(() => import('views/admin/dashboard')));
@@ -26,6 +27,10 @@ const AdminRoutes = {
     {
       path: '/admin/payment-request',
       element: <PaymentRequest />
+    },
+    {
+      path: '*',
+      element: <Navigate to="/" replace />
     }
   ]
 };
