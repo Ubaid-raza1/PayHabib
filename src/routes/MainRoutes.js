@@ -2,17 +2,17 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
-const InstantPayment = Loadable(lazy(() => import('views/instant-payment')));
-const QrScan = Loadable(lazy(() => import('views/qr-scan')));
+const Dashboard = Loadable(lazy(() => import('views/customer/dashboard')));
+const InstantPayment = Loadable(lazy(() => import('views/customer/instant-payment')));
+const QrScan = Loadable(lazy(() => import('views/customer/qr-scan')));
 
 const MainRoutes = {
   path: '/',
   element: <MainLayout />,
   children: [
     {
-      path: '/payment',
-      element: <DashboardDefault />
+      path: '/',
+      element: <Dashboard />
     },
     {
       path: '/instant-payment',

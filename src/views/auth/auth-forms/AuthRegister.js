@@ -1,5 +1,7 @@
 import { Box } from '@mui/system';
+import axios from 'axios';
 import { useFormik } from 'formik';
+import { ToastContainer, toast } from 'react-toastify';
 import CustomButton from 'ui-component/custom-button';
 import FlagInput from 'ui-component/form/flag-input';
 import Input from 'ui-component/form/input';
@@ -22,15 +24,30 @@ const AuthLogin = () => {
       bankName: '',
       email: '',
       phoneNumber: '',
-      password: ''
+      password: '',
+      countryCode: 'PK'
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
+    onSubmit: async (values) => {
       console.log(values);
+      try {
+        const { data } = await axios.post('https://7126-39-50-174-247.ngrok-free.app/api/auth/signup/customer', {
+          username: values.username,
+          email: values.email,
+          password: values.password,
+          phoneNumber: values.phoneNumber,
+          accountNumber: values.accountNumber,
+          accountName: values.bankName,
+          city: 'karachi',
+          countryCode: values.countryCode
+        });
+        toast(data.message);
+        console.log(data);
+      } catch (error) {
+        toast(error.response.data.message || error.message);
+      }
     }
   });
-
   return (
     <div className="auth-form">
       <form onSubmit={formik.handleSubmit}>
@@ -71,6 +88,7 @@ const AuthLogin = () => {
           </CustomButton>
         </Box>
       </form>
+      <ToastContainer />
     </div>
   );
 };

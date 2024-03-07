@@ -9,26 +9,34 @@ const adminPages = {
   type: 'group',
   children: [
     {
-      id: 'default',
+      id: 'dashboard',
+      title: 'Dashboard',
+      type: 'item',
+      url: '/',
+      icon: icons.IconCurrencyDollar,
+      breadcrumbs: false
+    },
+    {
+      id: 'payment',
       title: 'Payment',
       type: 'item',
-      url: '/payment',
+      url: '/admin/payment',
       icon: icons.IconCurrencyDollar,
       breadcrumbs: false
     },
     {
-      id: 'instant-payment',
-      title: 'Instant Payment',
+      id: 'customers',
+      title: 'Customers',
       type: 'item',
-      url: '/instant-payment',
+      url: '/admin/customer',
       icon: icons.IconCurrencyDollar,
       breadcrumbs: false
     },
     {
-      id: 'qr-span',
-      title: 'QR Scan',
+      id: 'payment-request',
+      title: 'Payment Request',
       type: 'item',
-      url: '/qr-scan',
+      url: '/admin/payment-request',
       icon: icons.IconCurrencyDollar,
       breadcrumbs: false
     }

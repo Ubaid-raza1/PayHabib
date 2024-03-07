@@ -6,9 +6,9 @@ const SelectOption = ({ label, options, ...props }) => {
     <FormControl fullWidth>
       <InputLabel>{label}</InputLabel>
       <Select {...props}>
-        {options.map((option, index) => (
-          <MenuItem key={index} value={option.value}>
-            {option.label}
+        {options?.map((option, index) => (
+          <MenuItem key={index} value={option?.value}>
+            {option?.label}
           </MenuItem>
         ))}
       </Select>

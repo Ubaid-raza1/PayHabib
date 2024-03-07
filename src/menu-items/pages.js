@@ -1,12 +1,8 @@
-// assets
 import { IconCurrencyDollar } from '@tabler/icons-react';
 
-// constant
 const icons = {
   IconCurrencyDollar
 };
-
-// ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
   id: 'pages',
@@ -16,7 +12,7 @@ const pages = {
       id: 'default',
       title: 'Payment',
       type: 'item',
-      url: '/payment',
+      url: '/',
       icon: icons.IconCurrencyDollar,
       breadcrumbs: false
     },

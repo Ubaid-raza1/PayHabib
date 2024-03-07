@@ -1,9 +1,19 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
 import reducer from './reducer';
 
-// ==============================|| REDUX - MAIN STORE ||============================== //
+const persistConfig = {
+  key: 'root',
+  storage,
+  blacklist: [],
+  whitelist: ['auth']
+};
 
-const store = createStore(reducer);
-const persister = 'Free';
+const persistedReducer = persistReducer(persistConfig, reducer);
 
-export { store, persister };
+const store = createStore(persistedReducer, applyMiddleware());
+const persistor = persistStore(store);
+
+export { store, persistor };

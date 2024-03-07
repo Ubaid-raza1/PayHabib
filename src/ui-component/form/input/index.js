@@ -3,11 +3,11 @@ import TextField from '@mui/material/TextField';
 import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 
-const Input = ({ label, ...props }) => {
+const Input = ({ label, sx, ...props }) => {
   return (
     <Box>
       <Typography>{label}</Typography>
-      <TextField variant="outlined" fullWidth {...props} placeholder={label} />
+      <TextField variant="outlined" fullWidth {...props} placeholder={label} sx={sx} />
     </Box>
   );
 };

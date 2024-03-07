@@ -7,83 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import CustomButton from 'ui-component/custom-button';
 
 const headerCustomerTable = ['CUSTOMER ACCOUNT NO.', 'MERCHANT ACCOUNT NO.', 'STATUS', 'DISCRIPTION', 'TIME', 'DATE', 'AMOUNT', 'ACTIONS'];
-const rows = [
-  {
-    id: 1,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  },
-  {
-    id: 2,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  },
-  {
-    id: 3,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  },
-  {
-    id: 4,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  },
-  {
-    id: 5,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  },
-  {
-    id: 6,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  },
-  {
-    id: 7,
-    customerAccountNo: 123456789,
-    merchantAccountNo: 1425364141,
-    status: 'panding',
-    discription: 'payment purpose',
-    time: '03:09 AM',
-    date: 'feb 15,2023',
-    amount: '890 PKR'
-  }
-];
 
-const StickyHeadTable = () => {
+const StickyHeadTable = ({ data, pay, rejected }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -95,7 +23,7 @@ const StickyHeadTable = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  console.log({ data });
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -108,30 +36,44 @@ const StickyHeadTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell>{row.customerAccountNo}</TableCell>
-                  <TableCell>{row.merchantAccountNo}</TableCell>
-                  <TableCell>{row.status}</TableCell>
-                  <TableCell>{row.discription}</TableCell>
-                  <TableCell>{row.time}</TableCell>
-                  <TableCell>{row.date}</TableCell>
-                  <TableCell>{row.amount}</TableCell>
-                  <TableCell>
-                    <Button color="success">Pay</Button>
-                    <Button color="error">Reject</Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {data?.length &&
+              data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                const date = new Date(row?.createdAt).toLocaleDateString();
+                const time = new Date(row?.createdAt).toLocaleTimeString();
+                const statusColor = {
+                  pending: 'yellow',
+                  rejected: 'red',
+                  succeeded: 'green'
+                };
+                return (
+                  <TableRow key={row?._id}>
+                    <TableCell>{row?.customerAccountNumber}</TableCell>
+                    <TableCell>{row?.merchantAccountNumber}</TableCell>
+                    <TableCell sx={{ color: statusColor[row?.status] }}>{row?.status}</TableCell>
+                    <TableCell>{row?.description}</TableCell>
+                    <TableCell>{time}</TableCell>
+                    <TableCell>{date}</TableCell>
+                    <TableCell>{row?.amount}</TableCell>
+                    {row?.status === 'pending' && (
+                      <TableCell>
+                        <CustomButton color="success" onClick={() => pay(row?._id)}>
+                          Pay
+                        </CustomButton>
+                        <CustomButton color="error" onClick={() => rejected(row?._id)}>
+                          Reject
+                        </CustomButton>
+                      </TableCell>
+                    )}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 100]}
         component="div"
-        count={rows.length}
+        count={data?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

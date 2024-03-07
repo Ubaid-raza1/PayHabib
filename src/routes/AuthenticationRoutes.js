@@ -1,15 +1,10 @@
 import { lazy } from 'react';
-
-// project imports
 import Loadable from 'ui-component/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
 
-// login option 3 routing
-const AuthLogin3 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Login3')));
-const AuthRegister3 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register3')));
+const Login = Loadable(lazy(() => import('views/auth/login')));
+const Register = Loadable(lazy(() => import('views/auth/sign-up')));
 const Home = Loadable(lazy(() => import('views/home')));
-
-// ==============================|| AUTHENTICATION ROUTING ||============================== //
 
 const AuthenticationRoutes = {
   path: '/',
@@ -20,12 +15,12 @@ const AuthenticationRoutes = {
       element: <Home />
     },
     {
-      path: '/pages/login/login3',
-      element: <AuthLogin3 />
+      path: '/auth/login',
+      element: <Login />
     },
     {
-      path: '/pages/register/register3',
-      element: <AuthRegister3 />
+      path: '/auth/register',
+      element: <Register />
     }
   ]
 };

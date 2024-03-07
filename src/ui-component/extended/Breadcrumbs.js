@@ -25,8 +25,6 @@ const linkSX = {
   alignItems: 'center'
 };
 
-// ==============================|| BREADCRUMBS ||============================== //
-
 const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAlign, separator, title, titleBottom, ...others }) => {
   const theme = useTheme();
 
@@ -60,7 +58,7 @@ const Breadcrumbs = ({ card, divider, icon, icons, maxItems, navigation, rightAl
 
   useEffect(() => {
     navigation?.items?.map((menu) => {
-      if (menu.type && menu.type === 'group') {
+      if (menu?.type && menu?.type === 'group') {
         getCollapse(menu);
       }
       return false;

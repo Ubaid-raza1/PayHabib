@@ -6,12 +6,11 @@ import Input from 'ui-component/form/input';
 import SelectOption from 'ui-component/form/select-option';
 import Textarea from 'ui-component/form/text-area';
 import CustomButton from 'ui-component/custom-button';
+import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-const options = [
-  { value: 'option1', label: 'Option 1' },
-  { value: 'option2', label: 'Option 2' },
-  { value: 'option3', label: 'Option 3' }
-];
+const options = [{ value: 'BAHL', label: 'Bank al habib' }];
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
@@ -24,23 +23,43 @@ const validationSchema = Yup.object().shape({
 });
 
 const InstantPayment = () => {
+  const { user } = useSelector((state) => state.auth);
   const formik = useFormik({
     initialValues: {
-      username: '',
+      username: user?.username || '',
       email: '',
       paymentAmount: '',
-      customerAccountNumber: '',
+      customerAccountNumber: user?.accountNumber || '',
       merchantAccountNumber: '',
       option: '',
       message: ''
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const { data } = await axios.post(
+          `https://6e59-39-50-174-247.ngrok-free.app/api/payment/transaction-request`,
+          {
+            customerAccountNumber: values.customerAccountNumber,
+            merchantAccountNumber: values.merchantAccountNumber,
+            description: values.message,
+            amount: values.paymentAmount,
+            status: 'pending',
+            currency: 'PKR'
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user?.token || ''}`
+            }
+          }
+        );
+        toast(data.message);
+      } catch (error) {
+        toast(error.response.data.message || error.message);
+      }
     }
   });
-
   return (
     <div className="main">
       <h1>Instant Payment</h1>
@@ -115,6 +134,7 @@ const InstantPayment = () => {
           </Box>
         </form>
       </Box>
+      <ToastContainer />
     </div>
   );
 };
