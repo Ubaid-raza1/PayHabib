@@ -11,5 +11,6 @@ export default function Routes() {
     customer: MainRoutes,
     merchant: AdminRoutes
   };
+
   return useRoutes([user?.token ? handleRoute[user?.role] : AuthenticationRoutes]);
 }
