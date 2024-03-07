@@ -1,0 +1,13 @@
+.PhoneInput {
+  border: 1px solid #c7c7c7;
+  border-radius: 10px;
+}
+.PhoneInputCountry {
+  padding: 1rem;
+
+  border-right: 1px solid #c7c7c7;
+}
+.PhoneInputInput {
+  border: none;
+  outline: none !important;
+}

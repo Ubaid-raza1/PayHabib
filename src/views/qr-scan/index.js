@@ -73,7 +73,7 @@ const QrScan = () => {
                   onChange={handleFileChange}
                   style={{ display: 'none' }}
                 />
-                <CustomButton variant={'text'} onClick={handleBrowseClick}>
+                <CustomButton variant={'text'} color="secondary" onClick={handleBrowseClick}>
                   Browse files
                 </CustomButton>
               </>
@@ -83,7 +83,7 @@ const QrScan = () => {
             <CustomButton variant={'text'} color="inherit">
               Cancel
             </CustomButton>
-            <CustomButton variant={'contained'} onClick={handleUpload} disabled={!selectedFile}>
+            <CustomButton variant={'contained'} color="secondary" onClick={handleUpload} disabled={!selectedFile}>
               Upload
             </CustomButton>
           </Box>

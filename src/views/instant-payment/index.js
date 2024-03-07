@@ -109,7 +109,7 @@ const InstantPayment = () => {
             {formik.touched.message && formik.errors.message && <div style={{ color: 'red' }}>{formik.errors.message}</div>}
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-            <CustomButton type="submit" variant="contained" sx={{ width: '50px', color: '#fff' }}>
+            <CustomButton type="submit" variant="contained" color="secondary" sx={{ width: '50px', color: '#fff' }}>
               pay
             </CustomButton>
           </Box>
