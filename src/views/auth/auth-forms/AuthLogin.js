@@ -9,6 +9,7 @@ import Input from 'ui-component/form/input';
 import PasswordInput from 'ui-component/form/password-input';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { baseUrl } from 'config';
 
 const AuthLogin = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const AuthLogin = () => {
     onSubmit: async (values) => {
       console.log(values);
       try {
-        const { data } = await axios.post('https://6e59-39-50-174-247.ngrok-free.app/api/auth/signin', {
+        const { data } = await axios.post(`${baseUrl}/auth/signin`, {
           email: values.username,
           password: values.password
         });

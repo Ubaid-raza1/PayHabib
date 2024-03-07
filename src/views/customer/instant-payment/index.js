@@ -9,8 +9,8 @@ import CustomButton from 'ui-component/custom-button';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-
-const options = [{ value: 'BAHL', label: 'Bank al habib' }];
+import { BanksName } from 'assets/data';
+import { baseUrl } from 'config';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
@@ -38,13 +38,14 @@ const InstantPayment = () => {
     onSubmit: async (values) => {
       try {
         const { data } = await axios.post(
-          `https://6e59-39-50-174-247.ngrok-free.app/api/payment/transaction-request`,
+          `${baseUrl}/payment/transaction-request`,
           {
             customerAccountNumber: values.customerAccountNumber,
             merchantAccountNumber: values.merchantAccountNumber,
+            accountName: values.option,
             description: values.message,
             amount: values.paymentAmount,
-            status: 'pending',
+            status: 'succeeded',
             currency: 'PKR'
           },
           {
@@ -55,6 +56,7 @@ const InstantPayment = () => {
           }
         );
         toast(data.message);
+        formik.resetForm();
       } catch (error) {
         toast(error.response.data.message || error.message);
       }
@@ -112,7 +114,7 @@ const InstantPayment = () => {
           </Box>
           <Box>
             <SelectOption
-              options={options}
+              options={BanksName}
               label="Select Bank Name"
               {...formik.getFieldProps('option')}
               error={formik.touched.option && formik.errors.option}

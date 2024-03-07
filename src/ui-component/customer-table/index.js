@@ -7,9 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import CustomButton from 'ui-component/custom-button';
 
-const StickyHeadTable = ({ data, pay, rejected, headerData }) => {
+const CustomerTable = ({ data, headerData }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -37,32 +36,15 @@ const StickyHeadTable = ({ data, pay, rejected, headerData }) => {
             {data?.length &&
               data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                 const date = new Date(row?.createdAt).toLocaleDateString();
-                const time = new Date(row?.createdAt).toLocaleTimeString();
-                const statusColor = {
-                  pending: '#b1b117',
-                  rejected: 'red',
-                  succeeded: 'green'
-                };
                 return (
                   <TableRow key={row?._id}>
-                    <TableCell>{row?.customerAccountNumber}</TableCell>
-                    <TableCell>{row?.merchantAccountNumber}</TableCell>
+                    <TableCell>{row?.username}</TableCell>
+                    <TableCell>{row?.email}</TableCell>
+                    <TableCell>{row?.phoneNumber}</TableCell>
+                    <TableCell>{row?.accountNumber}</TableCell>
                     <TableCell>{row?.accountName}</TableCell>
-                    <TableCell sx={{ color: statusColor[row?.status] }}>{row?.status}</TableCell>
-                    <TableCell>{row?.description}</TableCell>
-                    <TableCell>{time}</TableCell>
+                    <TableCell>{row?.city}</TableCell>
                     <TableCell>{date}</TableCell>
-                    <TableCell>{row?.amount}</TableCell>
-                    {row?.status === 'pending' && (
-                      <TableCell>
-                        <CustomButton color="success" onClick={() => pay(row?._id)}>
-                          Pay
-                        </CustomButton>
-                        <CustomButton color="error" onClick={() => rejected(row?._id)}>
-                          Reject
-                        </CustomButton>
-                      </TableCell>
-                    )}
                   </TableRow>
                 );
               })}
@@ -82,4 +64,4 @@ const StickyHeadTable = ({ data, pay, rejected, headerData }) => {
   );
 };
 
-export default StickyHeadTable;
+export default CustomerTable;

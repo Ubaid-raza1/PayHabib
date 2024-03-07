@@ -1,5 +1,6 @@
 import { Box } from '@mui/system';
 import axios from 'axios';
+import { baseUrl } from 'config';
 import { useFormik } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
 import CustomButton from 'ui-component/custom-button';
@@ -29,9 +30,8 @@ const AuthLogin = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       try {
-        const { data } = await axios.post('https://7126-39-50-174-247.ngrok-free.app/api/auth/signup/customer', {
+        const { data } = await axios.post(`${baseUrl}/auth/signup/customer`, {
           username: values.username,
           email: values.email,
           password: values.password,
@@ -42,7 +42,7 @@ const AuthLogin = () => {
           countryCode: values.countryCode
         });
         toast(data.message);
-        console.log(data);
+        formik.resetForm();
       } catch (error) {
         toast(error.response.data.message || error.message);
       }

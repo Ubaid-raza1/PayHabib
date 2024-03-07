@@ -1,8 +1,10 @@
 const config = {
   basename: '/',
-  defaultPath: '/dashboard/default',
+  defaultPath: '/',
   fontFamily: `'Roboto', sans-serif`,
   borderRadius: 12
 };
 
 export default config;
+
+export const baseUrl = 'https://backend-procom.vercel.app/api';

@@ -10,20 +10,23 @@ import { BrowserView, MobileView } from 'react-device-detect';
 
 // project imports
 import MenuList from './MenuList';
-import LogoSection from '../LogoSection';
 import MenuCard from './MenuCard';
 import { drawerWidth } from 'store/constant';
+import { useSelector } from 'react-redux';
 
 const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
   const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+  const { user } = useSelector((state) => state.auth);
 
+  const handleRoute = {
+    customer: 'Customer Portal',
+    merchant: 'PayHabib'
+  };
   const drawer = (
     <>
       <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-        <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
-          <LogoSection />
-        </Box>
+        <Box sx={{ display: 'flex', p: 2, mx: 'auto', fontSize: '20px', fontWeight: 'bold', color: '#000' }}>{handleRoute[user?.role]}</Box>
       </Box>
       <BrowserView>
         <PerfectScrollbar

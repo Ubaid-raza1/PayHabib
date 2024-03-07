@@ -1,7 +1,9 @@
-import { IconCurrencyDollar } from '@tabler/icons-react';
+import { IconCurrencyDollar, IconCurrencyDollarCanadian, IconQrcode } from '@tabler/icons-react';
 
 const icons = {
-  IconCurrencyDollar
+  IconCurrencyDollar,
+  IconCurrencyDollarCanadian,
+  IconQrcode
 };
 
 const pages = {
@@ -21,7 +23,7 @@ const pages = {
       title: 'Instant Payment',
       type: 'item',
       url: '/instant-payment',
-      icon: icons.IconCurrencyDollar,
+      icon: icons.IconCurrencyDollarCanadian,
       breadcrumbs: false
     },
     {
@@ -29,7 +31,7 @@ const pages = {
       title: 'QR Scan',
       type: 'item',
       url: '/qr-scan',
-      icon: icons.IconCurrencyDollar,
+      icon: icons.IconQrcode,
       breadcrumbs: false
     }
   ]

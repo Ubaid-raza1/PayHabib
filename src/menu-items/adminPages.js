@@ -1,7 +1,9 @@
-import { IconCurrencyDollar } from '@tabler/icons-react';
+import { IconCurrencyDollar, IconLayoutDashboard, IconUserCircle } from '@tabler/icons-react';
 
 const icons = {
-  IconCurrencyDollar
+  IconCurrencyDollar,
+  IconLayoutDashboard,
+  IconUserCircle
 };
 
 const adminPages = {
@@ -13,7 +15,7 @@ const adminPages = {
       title: 'Dashboard',
       type: 'item',
       url: '/',
-      icon: icons.IconCurrencyDollar,
+      icon: icons.IconLayoutDashboard,
       breadcrumbs: false
     },
     {
@@ -29,7 +31,7 @@ const adminPages = {
       title: 'Customers',
       type: 'item',
       url: '/admin/customer',
-      icon: icons.IconCurrencyDollar,
+      icon: icons.IconUserCircle,
       breadcrumbs: false
     },
     {

@@ -6,12 +6,11 @@ import Input from 'ui-component/form/input';
 import SelectOption from 'ui-component/form/select-option';
 import Textarea from 'ui-component/form/text-area';
 import CustomButton from 'ui-component/custom-button';
-
-const options = [
-  { value: 'option1', label: 'Option 1' },
-  { value: 'option2', label: 'Option 2' },
-  { value: 'option3', label: 'Option 3' }
-];
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import { BanksName } from 'assets/data';
+import { baseUrl } from 'config';
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
@@ -24,20 +23,44 @@ const validationSchema = Yup.object().shape({
 });
 
 const PaymentRequest = () => {
+  const { user } = useSelector((state) => state.auth);
   const formik = useFormik({
     initialValues: {
       username: '',
       email: '',
       paymentAmount: '',
       customerAccountNumber: '',
-      merchantAccountNumber: '',
+      merchantAccountNumber: user?.accountNumber || '',
       option: '',
       message: ''
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const { data } = await axios.post(
+          `${baseUrl}/payment/transaction-request`,
+          {
+            customerAccountNumber: values.customerAccountNumber,
+            merchantAccountNumber: values.merchantAccountNumber,
+            accountName: values.option,
+            description: values.message,
+            amount: values.paymentAmount,
+            status: 'pending',
+            currency: 'PKR'
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${user?.token || ''}`
+            }
+          }
+        );
+        toast(data.message);
+        formik.resetForm();
+      } catch (error) {
+        console.log(error);
+        toast(error.response.data.message || error.message);
+      }
     }
   });
   return (
@@ -101,7 +124,7 @@ const PaymentRequest = () => {
           </Box>
           <Box>
             <SelectOption
-              options={options}
+              options={BanksName}
               label="Select Bank Name"
               {...formik.getFieldProps('option')}
               error={formik.touched.option && formik.errors.option}
@@ -123,6 +146,7 @@ const PaymentRequest = () => {
           </Box>
         </form>
       </Box>
+      <ToastContainer />
     </div>
   );
 };

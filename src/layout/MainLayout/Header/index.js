@@ -1,37 +1,49 @@
 import PropTypes from 'prop-types';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, ButtonBase } from '@mui/material';
-
-// project imports
-import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons-react';
-
-// ==============================|| MAIN NAVBAR / HEADER ||============================== //
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { LOGOUT } from 'store/actions';
 
 const Header = ({ handleLeftDrawerToggle }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const theme = useTheme();
+
+  const handleRoute = {
+    customer: 'Customer Portal',
+    merchant: 'PayHabib'
+  };
+
+  const handleLogout = () => {
+    navigate('/auth/login');
+    dispatch({ type: LOGOUT });
+  };
 
   return (
     <>
-      {/* logo & toggler button */}
       <Box
         sx={{
           width: 228,
           display: 'flex',
+          alignItems: 'baseline',
           [theme.breakpoints.down('md')]: {
             width: 'auto'
           }
         }}
       >
-        <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-          <LogoSection />
+        <Box
+          component="span"
+          sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1, fontSize: '20px', fontWeight: 'bold', color: '#000' }}
+        >
+          {handleRoute[user?.role]}
         </Box>
         <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <Avatar
@@ -63,7 +75,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       {/* notification & profile */}
       <SearchSection />
       <NotificationSection />
-      <ProfileSection />
+      <ProfileSection handleLogout={handleLogout} />
     </>
   );
 };

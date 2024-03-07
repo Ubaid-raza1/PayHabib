@@ -6,12 +6,6 @@ import card_img_two from '../../../assets/images/admin/admin-card-two.png';
 import card_img_three from '../../../assets/images/admin/admin-card-three.png';
 import TotalGrowthBarChart from 'views/dashboard/TotalGrowthBarChart';
 import PieChart from 'ui-component/pie-chart';
-// import EarningCard from 'views/dashboard/EarningCard';
-// import ColumnChart from 'ui-component/column-chart';
-// import TotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
-// import TotalOrderLineChartCard from 'views/dashboard/TotalOrderLineChartCard';
-// import TotalIncomeLightCard from 'views/dashboard/TotalIncomeLightCard';
-// import PopularCard from 'views/dashboard/PopularCard';
 
 const AdminDashboard = () => {
   return (

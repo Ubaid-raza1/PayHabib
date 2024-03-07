@@ -41,7 +41,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   }
 }));
 
-const EarningCard = ({ isLoading }) => {
+const EarningCard = ({ isLoading, count, text, amount, amountDiv }) => {
   const theme = useTheme();
 
   return (
@@ -60,13 +60,20 @@ const EarningCard = ({ isLoading }) => {
                     color: theme.palette.secondary[200]
                   }}
                 >
-                  Total Earning
+                  {text || ''}
                 </Typography>
               </Grid>
               <Grid item>
-                <Grid container alignItems="center">
+                <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+                  {amountDiv && (
+                    <Grid item>
+                      <Typography
+                        sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}
+                      >{`${amount || 0}PKR`}</Typography>
+                    </Grid>
+                  )}
                   <Grid item>
-                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$500.00</Typography>
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>{count || 0}</Typography>
                   </Grid>
                 </Grid>
               </Grid>

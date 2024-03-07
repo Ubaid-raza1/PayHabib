@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CustomButton from 'ui-component/custom-button';
 
 const headerValue = [
@@ -11,6 +11,8 @@ const headerValue = [
 ];
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 30px', backgroundColor: '#fff' }}>
       <Box sx={{ fontSize: '18px', fontWeight: 'bold' }}>PayHabib</Box>
@@ -28,7 +30,7 @@ const Header = () => {
         </ul>
       </Box>
       <Box>
-        <CustomButton variant="contained" color="secondary">
+        <CustomButton variant="contained" color="secondary" onClick={() => navigate('/auth/login')}>
           Login
         </CustomButton>
       </Box>

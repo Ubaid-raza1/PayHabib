@@ -7,16 +7,29 @@ import EarningCard from 'ui-component/earning-card';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { baseUrl } from 'config';
 
+const customerPaymentHeader = [
+  'CUSTOMER ACCOUNT NO.',
+  'MERCHANT ACCOUNT NO.',
+  'ACCOUNT NAME.',
+  'STATUS',
+  'DISCRIPTION',
+  'TIME',
+  'DATE',
+  'AMOUNT',
+  'ACTIONS'
+];
 const Dashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+
   useEffect(() => {
     (async () => {
       try {
         const { data } = await axios.post(
-          `https://6e59-39-50-174-247.ngrok-free.app/api/payment/get-payments/${user?.accountNumber}`,
+          `${baseUrl}/payment/get-payments/${user?.accountNumber}`,
           {},
           {
             headers: {
@@ -29,18 +42,17 @@ const Dashboard = () => {
         setData(data?.payments);
       } catch (error) {
         setLoading(false);
-        toast(error.response.data.message || error.message);
+        toast(error?.response?.data?.message || error?.message);
       }
     })();
   }, []);
 
-  const records = data.reduce((count, record) => {
+  const records = data?.reduce((count, record) => {
     if (record.status === 'pending' || record.status === 'rejected' || record.status === 'succeeded') {
       count[record.status] = (count[record.status] || 0) + 1;
     }
     return count;
   }, {});
-  console.log(records);
 
   const pay = async (id) => {
     try {
@@ -100,17 +112,17 @@ const Dashboard = () => {
       <h1>Payment</h1>
       <Grid container spacing={gridSpacing}>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <EarningCard isLoading={isLoading} />
+          <EarningCard isLoading={isLoading} text="Total Pending Records" count={records?.pending} />
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <EarningCard isLoading={isLoading} />
+          <EarningCard isLoading={isLoading} text="Total Paid Records" count={records?.succeeded} />
         </Grid>
         <Grid item lg={4} md={6} sm={6} xs={12}>
-          <EarningCard isLoading={isLoading} />
+          <EarningCard isLoading={isLoading} text="Total Rejects Records" count={records?.rejected} />
         </Grid>
       </Grid>
       <Box sx={{ marginTop: '20px' }}>
-        <StickyHeadTable data={data} pay={pay} rejected={rejected} />
+        <StickyHeadTable data={data} pay={pay} rejected={rejected} headerData={customerPaymentHeader} />
       </Box>
       <ToastContainer />
     </div>
