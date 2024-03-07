@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const PieChart = () => {
-  const series = [44, 55, 41];
+const PieChart = ({ data }) => {
+  const series = [data?.totalSucceededRequests, data?.totalPendingRequests, data?.totalRejectedRequests];
   const options = {
     chart: {
       width: 380,
