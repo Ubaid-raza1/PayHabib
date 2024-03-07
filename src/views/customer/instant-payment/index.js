@@ -9,7 +9,7 @@ import CustomButton from 'ui-component/custom-button';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { BanksName } from 'assets/data';
+import { BanksName } from 'assets/data/data';
 import { baseUrl } from 'config';
 
 const validationSchema = Yup.object().shape({
